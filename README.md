@@ -11,6 +11,14 @@
 
 ## POST 작성 및 배포 방법
 
+### Git clone
+
+```bash
+git clone --recursive https://github.com/VumBleBot/VumBleBot.github.io.git
+```
+
+현재 hugo page가 Submodule(theme)을 포함하고 있기 때문에 clone 받을 때 `--resursive` 옵션이 필요합니다.  
+
 ### POST 생성
 
 ```bash

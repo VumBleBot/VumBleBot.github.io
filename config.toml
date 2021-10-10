@@ -2,3 +2,5 @@ baseURL = "https://vumblebot.github.io/"
 languageCode = "en-us"
 title = "VumBleBot Tech Blog"
 theme = "hugo-clarity"
+
+mathjax = true

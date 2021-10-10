@@ -1,23 +1,78 @@
-# hugoBasicExample
+# VumBleBot Tech Blog
 
-This repository offers an example site for [Hugo](https://gohugo.io/) and also it provides the default content for demos hosted on the [Hugo Themes Showcase](https://themes.gohugo.io/).
+## Hugo, gh-pages 동작 방식
 
-# Using
+1. `{root}/content/` 경로에 게시글 작성
+2. `commit`후 main 브랜치에 `push`
+3. github action 동작
+    - main 브랜치에 있는 내용을 Hugo를 사용하여 빌드
+    - 정적 사이트를 gh-pages 브랜치에 생성
+    - Github Pages가 gh-pages 브랜치를 배포
 
-1. [Install Hugo](https://gohugo.io/overview/installing/)
-2. Clone this repository
+## POST 작성 및 배포 방법
+
+### POST 생성
+
 ```bash
-git clone https://github.com/gohugoio/hugoBasicExample.git
-cd hugoBasicExample
-```
-3. Clone the repository you want to test. If you want to test all Hugo Themes then follow the instructions provided [here](https://github.com/gohugoio/hugoThemes#installing-all-themes)
-4. Run Hugo and select the theme of your choosing
-```bash
-hugo server -t YOURTHEME
-```
-5. Under `/content/` this repository contains the following:
-- A section called `/post/` with sample markdown content
-- A headless bundle called `homepage` that you may want to use for single page applications. You can find instructions about headless bundles over [here](https://gohugo.io/content-management/page-bundles/#headless-bundle)
-- An `about.md` that is intended to provide the `/about/` page for a theme demo
-6. If you intend to build a theme that does not fit in the content structure provided in this repository, then you are still more than welcome to submit it for review at the [Hugo Themes](https://github.com/gohugoio/hugoThemes/issues) respository
+hugo new <SECTIONNAME>/<FILENAME>.<FORMAT>
 
+# Example
+# hugo new post/example.md => /content/post/example.md에 파일 생성
+```
+
+### POST 배포
+
+```bash
+git add {your post_path}
+git commit -m "... update"
+git push origin main
+```
+
+### LOCAL에서 홈페이지 확인
+
+```bash
+hugo server
+```
+
+### POST - FRONT MATTER
+
+path: `archetypes/post.md`
+
+```markdown
+---
+title: "{{ replace .Name "-" " " | title }}" # Title of the blog post.
+date: {{ .Date }} # Date of post creation.
+description: "Article description." # Description used for search engine.
+featured: true # Sets if post is a featured post, making appear on the home page side bar.
+draft: true # Sets whether to render this page. Draft of true will not be rendered.
+toc: false # Controls if a table of contents should be generated for first-level links automatically.
+# menu: main
+featureImage: "/images/path/file.jpg" # Sets featured image on blog post.
+thumbnail: "/images/path/thumbnail.png" # Sets thumbnail image appearing inside card on homepage.
+shareImage: "/images/path/share.png" # Designate a separate image for social media sharing.
+codeMaxLines: 10 # Override global value for how many lines within a code block before auto-collapsing.
+codeLineNumbers: false # Override global value for showing of line numbers within code block.
+figurePositionShow: true # Override global value for showing the figure label.
+categories:
+  - Technology
+tags:
+  - Tag_name1
+  - Tag_name2
+# comment: false # Disable comment if false.
+---
+
+**Insert Lead paragraph here.**
+```
+
+#### 참고
+
+> archetypes에 다른 Template을 만들 수 있으니 자기 입맛에 맞게 사용
+
+- `description` : 상세하게 작성해야 SEO에 도움 됨.
+- `featured` : SideBar 상단에 Post를 위치시킴
+- `draft` : True일 경우 Local에서만 Rendering 됨
+
+## Todo
+
+- `Author` 기능 추가
+- `Token` N개월마다 갱신

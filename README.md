@@ -1,5 +1,7 @@
 # VumBleBot Tech Blog
 
+**혹시 이미지 첨부하려면 static 폴더에다가 이미지 저장하시고 파일에서 `[image_name](./{image_name})` 이렇게 작성하시면 경로 참조가 알아서 잘 됩니다.** 
+
 ## Hugo, gh-pages 동작 방식
 
 1. `{root}/content/` 경로에 게시글 작성

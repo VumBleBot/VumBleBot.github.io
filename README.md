@@ -68,9 +68,21 @@ tags:
 
 > archetypes에 다른 Template을 만들 수 있으니 자기 입맛에 맞게 사용
 
-- `description` : 상세하게 작성해야 SEO에 도움 됨.
+- `description` : 상세하게 작성해야 SEO에 도움 됨
 - `featured` : SideBar 상단에 Post를 위치시킴
 - `draft` : True일 경우 Local에서만 Rendering 됨
+
+## Ground Rule
+
+- 스우파(스트리트 우먼 파이터) 시청하기
+- 격주로 글 작성 (4주에 글 5개 작성)
+- FeedBack Time (수요일 이내로 FeedBack 작성)
+    - 가능하면 FeedBack 작성
+- 일요일 기준으로 체크
+    - N번째 그룹이 글 쓸때 (N+1)번째 그룹이 주제 선정
+- 주제 선정, 1주
+- 글 쓰는 데, 2주
+- 피드백 하는데, 1주
 
 ## Todo
 

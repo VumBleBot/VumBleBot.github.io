@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://vumblebot.github.io/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "VumBleBot Tech Blog"
 theme = "hugo-clarity"

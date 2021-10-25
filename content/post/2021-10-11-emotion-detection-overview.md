@@ -1,11 +1,11 @@
 ---
-title: "Emotion Detection(감성 분석) Overview" # Title of the blog post.
+title: "Emotion Detection(감성 인식) Overview" # Title of the blog post.
 date: 2021-10-11T00:10:48+09:00 # Date of post creation.
 description: "Article description." # Description used for search engine.
 featured: true # Sets if post is a featured post, making appear on the home page side bar.
 draft: true # Sets whether to render this page. Draft of true will not be rendered.
 toc: false # Controls if a table of contents should be generated for first-level links automatically.
-summary: 감정 분석(Sentiment analysis)은 주어진 텍스트를 이해하여 이에 내재된 작성자의 감정 방향(Polarity)을 식별해내는 작업입니다.
+summary: 이 글에서는 사람의 수많은 감성(Emotion)을 추론하는 감성 인식(Emotion detection) 태스크에 대해 살펴보도록 하겠습니다.
 # menu: main
 codeMaxLines: 10 # Override global value for how many lines within a code block before auto-collapsing.
 codeLineNumbers: false # Override global value for showing of line numbers within code block.
@@ -14,31 +14,41 @@ mathjax: true
 categories:
   - Technology
 tags:
-  - Tag_name1
-  - Tag_name2
+  - Emotion detection
 # comment: false # Disable comment if false.
 ---
 
 # Intro
-감정 분석(Sentiment analysis)은 주어진 텍스트를 이해하여 이에 내재된 작성자의 감정 방향(Polarity)을 식별해내는 작업입니다. 감정 분석에는 여러가지 종류가 있을 수 있지만 우리가 일반적으로 알고 있는 감정 분석의 경우 대부분 이진 분류(긍정, 부정) 문제로 취급됩니다. 좀 더 어려운 문제로써 5개의 라벨(강한 긍정, 약한 긍정, 중립, 약한 부정, 강한 부정)을 사용할 수도 있습니다.
+이 글에서는 사람의 수많은 감성(Emotion)을 추론하는 감성 인식(Emotion detection) 태스크에 대해 살펴보도록 하겠습니다.
 
-하지만 방금 말한 "어려운 문제"를 다룬다고 해도 5개 클래스의 면면을 살펴보면 아직도 이 task가 현실과는 동떨어져 보일 수 있습니다. 사람의 감정은 단순히 긍정과 부정으로 나눌 수 있는 것이 아니고 행복, 놀람, 슬픔, 분노, 우울 등의 다양한 형태로 존재하기 때문입니다. 
+사실 대부분의 사람들에게 '감성 인식'이라는 용어는 다소 생소할 수 있습니다. 오히려 비슷한 태스크를 다루는 감정 분석(Sentiment analysis)이 더 친숙할지도 모릅니다. 그래서 먼저 이 둘간의 차이점을 알아보기 위해 감정 분석에 대해 가볍게 알아보고, 이후 감성 인식에 대해 논해보도록 하겠습니다.
 
-물론 지금 하는 이야기가 Sentiment analysis가 무용지물이라는 것은 아닙니다. Sentiment analysis도 그 존재에 대한 고유의 의도와 목적이 뚜렷이 존재합니다. 또한 이 문제를 푸는 데에 쓰이는 방법들은 클래스를 표현하는 단어들에서 풍기는 느낌과는 다르게 전혀 단순하지 않습니다.
+<b>감정 분석(Sentiment analysis)</b>은 주어진 텍스트를 이해하여 이에 내재된 작성자의 감정 방향(Polarity)을 식별해내는 작업입니다. 감정 분석에는 여러가지 종류가 있을 수 있지만 우리가 일반적으로 알고 있는 감정 분석의 경우 대부분 이진 분류(긍정, 부정) 문제로 취급됩니다. 좀 더 어려운 문제로써 5개의 라벨(강한 긍정, 약한 긍정, 중립, 약한 부정, 강한 부정)을 사용할 수도 있습니다.
 
-다만 만약 우리가 앞서 언급한, 사람의 디테일한 "**감성**"을 다루고자 한다면 그 용어가 조금 달라지는데, 이 task는 **Emotion detection 혹은 Emotion classification**이라고 표현합니다. 사실 이게 정말 용어에 따라 task가 뒤바뀌는가라고 물으신다면 확답을 드리기는 어렵습니다. 단어가 혼용되는 경우도 상당히 많고 그렇다고 각 단어별로 여러 매체 정보들이 확실하게 구분되어 나타나는 것도 아니기 때문입니다. 
+하지만 방금 말한 "어려운 문제"를 다룬다고 해도 5개 클래스의 면면을 살펴보면 아직도 이 태스크가 현실과는 동떨어져 보일 수 있습니다. 사람의 감정은 단순히 긍정과 부정으로 나눌 수 있는 것이 아니고 행복, 놀람, 슬픔, 분노, 우울 등의 다양한 형태로 존재하기 때문입니다. 
 
-"감정(Sentiment)"과 "감성(Emotion)"의 그 미묘한 차이를 확실히는 모르겠지만, 중요한 것은 경향성만 따지자면 구글링을 하기에는(또한 여러 논문의 제목들도) Emotion이라는 키워드가 우리가 원하는 task에 더 적합한 키워드라는 점입니다. 아무튼 앞서 언급한 점들로 말미암아 지금부터는 "감성 인식(Emotion detection)" 문제를 푸는 방법과 관련 데이터셋에 대해 알아보도록 하겠습니다.
+물론 그렇다고 감정 분석이 무용지물이라는 말은 아닙니다. 감정 분석도 그 고유의 의도와 목적이 뚜렷이 존재합니다. 또한 이 문제를 푸는 데에 쓰이는 방법들은 클래스를 표현하는 단어들에서 풍기는 느낌과는 다르게 전혀 단순하지 않습니다.
+
+다만 만약 우리가 앞서 언급한, 사람의 디테일한 "**감성**"을 다루고자 한다면 그 용어가 조금 달라지는데, 이 태스크를 바로 <b>감성 인식(Emotion detection 혹은 Emotion classification)</b>이라고 표현합니다. 사실 이게 정말 용어에 따라 태스크가 뒤바뀌는가라고 물으신다면 확답을 드리기는 어렵습니다. 단어가 혼용되는 경우도 상당히 많고 그렇다고 각 단어별로 여러 매체 정보들이 확실하게 구분되어 나타나는 것도 아니기 때문입니다. 
+
+"감정(Sentiment)"과 "감성(Emotion)"의 그 미묘한 차이를 확실히는 모르겠지만, 중요한 것은 경향성만 따지자면 구글링을 하기에는(또한 여러 논문의 제목들도) Emotion이라는 키워드가 우리가 원하는 태스크에 더 적합한 키워드라는 점입니다. 아무튼 앞서 언급한 점들로 말미암아 지금부터는 "감성 인식(Emotion detection)" 문제를 푸는 방법과 관련 데이터셋에 대해 알아보도록 하겠습니다.
 
 
 # Method
-감정 분석(Sentiment analysis)에 대한 시도와 연구가 시작된지 매우 오래 되었기 때문에 솔루션도 그만큼 다양하게 존재합니다. Rule-based의 고전적인 방법부터 시작하여 Feature-based method(Logistic regression, SVM), Embedding-based method(FastText, Flair) 등이 존재합니다. 물론 대세는 Neural network(Deep learning) 기반 방법입니다.
+애석하게도 감성 인식(Emotion detection) 태스크는 자연어에 대한 연구보다는 이미지에 대한 연구, 특히 Real-time facial emotion detection에 대한 연구가 훨씬 많습니다. 따라서 자연어 기반의 감성 인식 태스크에 대한 method는 이미지(Vision) 도메인에 비해 그리 다양하지 않습니다.
 
-애석하게도 감성 인식(Emotion detection) task는 자연어에 대한 연구보다는 이미지에 대한 연구, 특히 Real-time facial emotion detection에 대한 연구가 훨씬 많습니다. 보통 이미지에 대한 감성 인식 task의 이름은 Emotion recognition으로 통용됩니다.
+하지만 감정 분석과 감성 인식 태스크간에 어느정도 밀접한 연관이 있기 때문에 method 역시 비슷한 형태를 띨 것이라고 추측해볼 수 있습니다.
 
-task specific한 사전 지식 없이 생각해보았을때 감성 인식도 아마 어텐션 기반의 딥러닝 모델, 즉 BERT나 GPT 기반의 모델들이 잘 해낼 수 있을 것입니다. 일반적인 방법을 생각해본다면 역시 여타 다수의 NLP 태스크와 동일하게 앞단에 large corpus로 학습된 pre-trained model을 놓고 뒷단에 classifier head를 놓으면 됩니다. 
+task specific한 사전 지식 없이 생각해보았을때 감성 인식도 아마 감정 분석처럼 어텐션 기반의 딥러닝 모델, 즉 BERT나 GPT 기반의 모델들이 잘 해낼 수 있을 것입니다. 일반적인 방법을 생각해본다면 역시 여타 다수의 NLP 태스크와 동일하게 앞단에 large corpus로 학습된 pre-trained model을 놓고 뒷단에 classifier head를 놓으면 됩니다. 
 
-이제 Emotion detection을 주제로 다룬 논문 2가지만 간단하게 살펴보도록 하겠습니다. 
+그렇다면 실제 감성 인식 문제를 주요 문제로 다루었던 논문 2가지를 아주 간단하게 리뷰해보면서 이들이 어떤 method를 사용했는지 살펴보도록 하겠습니다.
+
+## GoEmotions: A Dataset of Fine-Grained Emotions (2020)
+[Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith (ACL 2020)](https://aclanthology.org/2020.acl-main.372.pdf)
+
+Google에서 발표한 논문으로, 사실 모델보다는 새로운 dataset인 'GoEmotions'를 냈다는 데에 더 큰 의의가 있는 논문입니다. Reddit에서 크롤링한 문장으로 58,000 가량 되는 크기의 데이터셋을 만들었으며 class는 28개([아래 파트](#GoEmotions-Korean)에서 후술)입니다. 데이터 생성에 관한 내용, 즉 Annotation 방법과 데이터 가공 방법, 결과 데이터 분포에 대하여 여러 detail이 있지만 관련 내용은 생략하도록 하겠습니다.
+
+여기서 사용하고 있는 모델의 특징은 multi-label classification 방법을 적용하고 있다는 점, bi-directional LSTM과 BERT-base를 사용하고 있다는 점입니다. 모델링 자체는 앞서 언급하였던 일반적인 BERT/LSTM 기반 분류 모델과 큰 차이가 없습니다.
 
 ## Casting Multi-label Emotion Classification as Span-prediction
 [Hassan Alhuzali, Sophia Ananiadou (EACL 2021)](https://aclanthology.org/2021.eacl-main.135.pdf)  
@@ -75,12 +85,9 @@ task specific한 사전 지식 없이 생각해보았을때 감성 인식도 아
 
 BCE는 Cross entropy loss이고 이를 LCA와 결합하여 사용합니다. $\alpha$는 가중치 값으로 논문에서는 실험을 통해 나온 최적값 $\alpha = 0.2$를 사용합니다. BCE는 풀어서 보면 binary cross entropy인데, 초기 목적이 이진 분류라 앞에 binary라는 말이 붙었으나 multi-label classification에도 이 함수를 사용할 수 있습니다. ([참고글](https://cvml.tistory.com/26))
 
-## GoEmotions: A Dataset of Fine-Grained Emotions (2020)
-[Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith (ACL 2020)](https://aclanthology.org/2020.acl-main.372.pdf)
+![](/images/211011-1.png)
 
-Google에서 발표한 논문으로, 사실 모델보다는 새로운 dataset인 'GoEmotions'를 냈다는 데에 더 큰 의의가 있는 논문입니다. Reddit에서 크롤링한 문장으로 58,000 가량 되는 크기의 데이터셋을 만들었으며 class는 28개([아래 파트](#GoEmotions-Korean)에서 후술)입니다. 데이터 생성에 관한 내용, 즉 Annotation 방법과 데이터 가공 방법, 결과 데이터 분포에 대하여 여러 detail이 있지만 관련 내용은 생략하도록 하겠습니다.
-
-여기서 사용하고 있는 모델의 특징은 multi-label classification 방법을 적용하고 있다는 점, bi-directional LSTM과 BERT-base를 사용하고 있다는 점입니다. 모델링 자체는 일반적인 BERT/LSTM 모델과 큰 차이가 없습니다.
+실험 결과는 위와 같습니다. 논문 발표 당시 기준, 특히 스페인어에서 뚜렷한 강세를 보인 것을 알 수 있고 English에서도 기존 모델들보다 좋거나 견줄만한 성능을 보이는 것을 확인할 수 있습니다. 참고로 여기서 활용한 데이터셋(SemEval2018 multi-label emotion data)은 트위터 수집 데이터 기반의 데이터셋으로, anger, anticipation, joy, trust 등 총 11개 class로 이루어져 있습니다. 이 데이터셋에 대한 소개는 논지를 벗어나므로 이에 대해 자세히 다루지는 않겠습니다. 데이터셋에 대한 더 자세한 내용은 [여기](https://competitions.codalab.org/competitions/17751)를 참고해주세요.
 
 # Metric
 현재 다루고 있는 감성 인식도 일종의 분류(classification) 문제이기 때문에 만약 단순한 분류 문제로 간다면 **F1 score(macro)를** 사용해도 전혀 지장이 없을 것입니다. 우리가 절대 틀리지 말아야 할 클래스가 존재한다면 다른 metric을 고려해볼 수 있겠으나 현재로서 그런 클래스는 없을 것으로 예상됩니다. 또한 사용하는 dataset 내에 class imbalancing 문제가 크게 두드러지지 않는다면 F1-score의 대안으로써 **Accuracy**를 고를 수 있습니다.
